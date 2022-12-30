@@ -1,5 +1,5 @@
 {
-  "name": "10_express_webpack",
+  "name": "11_express_middleware",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
