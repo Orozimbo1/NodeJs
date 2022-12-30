@@ -10,4 +10,4 @@ route.post('/', homeController.envioInput)
 // Rotas para contato
 route.get('/contato', contatoController.paginaContato)
 
-module.exports = route
+module.exports = route 

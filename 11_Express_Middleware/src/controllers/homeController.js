@@ -3,5 +3,5 @@ exports.paginaIniciAL = (req, res) => {
 }
 
 exports.envioInput = (req, res) => {
-    res.send(`O que voce me enviou foi: ${req.body.nome}`)
+    res.send(req.body)
 }
