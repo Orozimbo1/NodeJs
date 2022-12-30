@@ -1,0 +1,23 @@
+<%- include('includes/head') %>
+
+  <section class="container">
+    <h1>
+      <% if(typeof titulo !== 'undefined') { %>
+        <%= titulo %>
+      <% } else { %>
+        <h1>O título não foi enviado</h1>
+      <% } %>
+    </h1>
+    <ul>
+      <% for(let numero of numeros) { %>
+        <li><%= numero %></li>
+      <% } %>
+    </ul>
+    <form action="/" method="post">
+      <label >Cliente</label>
+      <input type="text" name="cliente">
+      <button>Submit</button>
+    </form>
+  </section>
+
+<%- include('includes/footer') %>
