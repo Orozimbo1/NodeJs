@@ -34,6 +34,7 @@ mongoose.connect(process.env.CONNECTIONSTRING)
 
 
 app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 app.use(express.static(path.resolve(__dirname, 'public')))
 app.use(sessionOptions)
 app.use(flash())
