@@ -1,5 +1,5 @@
 {
-  "name": "4_express",
+  "name": "6_express_req",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
