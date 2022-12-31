@@ -12,7 +12,11 @@
 
       <%- include('includes/messages') %>
   
+      <% if(!contatoExists._id) { %>
       <form action="/contato/register" method="POST">
+      <% } else { %>
+      <form action="/contato/edit/<%= contatoExists._id %>" method="POST">
+      <% } %>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
   
         <div class="form-group my-3">
@@ -27,7 +31,7 @@
         </div>
   
         <button type="submit" class="btn btn-primary">
-          <% if(!contatoExists.id) { %>
+          <% if(!contatoExists._id) { %>
             Salvar
           <% } else { %>
             Editar

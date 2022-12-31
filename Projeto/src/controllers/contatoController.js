@@ -32,7 +32,7 @@ exports.register = async (req, res) => {
     }
 }
 
-exports.edit = async (req, res) => {
+exports.editIndex = async (req, res) => {
     if(!req.params.id) return res.render('404')
 
     const contato = new Contato(req.body)
@@ -40,4 +40,30 @@ exports.edit = async (req, res) => {
     if(!contatoExists) return res.render('404')
 
     res.render('contato', { contatoExists })
+}
+
+exports.edit = async (req, res) => {
+    try {
+        if(!req.params.id) return res.render('404')
+        const id = req.params.id
+
+        const contato = new Contato(req.body)
+        await contato.edit(req.params.id)
+
+        if(contato.errors.length > 0) {
+            req.flash('errors', contato.errors)
+            req.session.save(function() {
+                return res.redirect(`/contato/index/${id}`) 
+            })
+            return
+        }
+
+        req.flash('success', 'Seu contato foi editado com sucesso.')
+        req.session.save(function() {
+            return res.redirect(`/contato/index/${id}`)
+        })
+    } catch(e) {
+        console.log(e)
+        res.render('404')
+    }
 }
