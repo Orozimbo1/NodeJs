@@ -1,7 +1,11 @@
+const { render } = require('ejs')
 const Login = require('../models/LoginModel')
 
 exports.index = (req, res) => {
-    res.render('login')
+    if(req.session.user) {
+        return res.render('logado')
+    }
+    return res.render('login')
 }
 
 exports.register = async (req, res) => {
@@ -12,14 +16,14 @@ exports.register = async (req, res) => {
         if(login.errors.length > 0) {
             req.flash('errors', login.errors)
             req.session.save(function() {
-                return res.redirect('/login')
+                return res.redirect('/login') 
             })
             return
         }
 
         req.flash('success', 'Seu usuário foi criado com sucesso.')
         req.session.save(function() {
-            return res.redirect('/login')
+            return res.redirect('/')
         })
 
     } catch(e) {
@@ -29,6 +33,32 @@ exports.register = async (req, res) => {
     }
 }
 
-exports.login = (req, res) => {
-    res.send('login')
+exports.login = async (req, res) => {
+    try {
+        const login = new Login(req.body)
+        await login.login()
+
+        if(login.errors.length > 0) {
+            req.flash('errors', login.errors)
+            req.session.save(function() {
+                return res.redirect('/login') 
+            })
+            return
+        }
+
+        req.flash('success', 'Você foi logado com sucesso.')
+        req.session.user = login.user
+        req.session.save(function() {
+            return res.redirect('/')
+        })
+
+    } catch(e) {
+
+        console.log(e)
+    }   
+}
+
+exports.logout = (req, res) => {
+    req.session.destroy()
+    res.redirect('/')
 }

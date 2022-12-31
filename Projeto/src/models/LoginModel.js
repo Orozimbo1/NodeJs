@@ -33,11 +33,7 @@ class Login {
         const salt = bcryptjs.genSaltSync()
         this.body.senha = bcryptjs.hashSync(this.body.senha, salt)
 
-        try {
-            this.user = await LoginModel.create(this.body)
-        } catch(e) {
-            console.log(e)
-        }
+        this.user = await LoginModel.create(this.body)
     }
 
     valida() {
@@ -53,8 +49,8 @@ class Login {
     }
 
     async userExists() {
-        const user = await LoginModel.findOne({ email: this.body.email })
-        if(user) this.errors.push(`Email "${this.body.email}" já cadastrado.`)
+        this.user = await LoginModel.findOne({ email: this.body.email })
+        if(this.user) this.errors.push(`Email "${this.body.email}" já cadastrado.`)
 
     }
 
@@ -69,6 +65,27 @@ class Login {
             email: this.body.email,
             senha: this.body.senha
         }
+    }
+
+    async login() {
+        this.valida()
+        if(this.errors.length > 0) return
+
+        this.user = await LoginModel.findOne({ email: this.body.email })
+
+        if(!this.user) {
+            this.errors.push(`Usuário ou senha incorretos.`)
+            this.user = null
+            return
+        }
+
+        if(!bcryptjs.compareSync(this.body.senha, this.user.senha)) {
+            this.errors.push(`Usuário ou senha incorretos.`)
+            this.user = null
+            return
+        }
+
+
     }
 }
 
