@@ -5,13 +5,6 @@ exports.middlewareGlobal = (req, res, next) => {
     next()
 }
 
-exports.outroMidleware = (req, res, next) => {
-    console.log()
-    console.log('Sou seu outro middleware.')
-    console.log()
-    next()
-}
-
 exports.checkCsrfError = (err, req, res, next) => {
     if(err) {
         return res.render('404')
@@ -20,5 +13,15 @@ exports.checkCsrfError = (err, req, res, next) => {
 
 exports.csrfMiddleware = (req, res, next) => {
     res.locals.csrfToken = req.csrfToken()
+    next()
+}
+
+exports.loginRequired = (req, res, next) => {
+    if (!req.session.user) {
+        req.flash('errors', 'Você precisa estar logado!')
+        req.session.save(() => res.redirect('/'))
+        return
+    }
+
     next()
 }

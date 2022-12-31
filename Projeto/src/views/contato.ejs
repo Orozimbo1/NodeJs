@@ -1,0 +1,46 @@
+<%- include('includes/head') %>
+<%- include('includes/navbar') %>
+
+<div class="container">
+  <div class="row">
+
+    <div class="col-lg-2"></div>
+
+    <div class="col-lg-8 my-3">
+      <h1 class="text-center">Contato</h1>
+      <p class="text-center lead">Crie ou edite seus contatos.</p>
+
+      <%- include('includes/messages') %>
+  
+      <form action="/contato/register" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  
+        <div class="form-group my-3">
+          <label for="exampleInputEmail1">Nome</label>
+          <input type="text" value="<%= contatoExists.nome %>" class="form-control my-2" name="nome" aria-describedby="emailHelp">
+          <label for="exampleInputEmail1">Sobrenome</label>
+          <input type="text" value="<%= contatoExists.sobrenome %>" class="form-control my-2" name="sobrenome" aria-describedby="emailHelp">
+          <label for="exampleInputEmail1">Telefone</label>
+          <input type="tel" value="<%= contatoExists.telefone %>" class="form-control my-2" name="telefone" aria-describedby="emailHelp">
+          <label for="exampleInputEmail1">Email</label>
+          <input type="email" value="<%= contatoExists.email %>" class="form-control my-2" name="email" aria-describedby="emailHelp">
+        </div>
+  
+        <button type="submit" class="btn btn-primary">
+          <% if(!contatoExists.id) { %>
+            Salvar
+          <% } else { %>
+            Editar
+          <% } %>
+        </button>
+  
+      </form>
+    </div>
+
+
+    <div class="col-lg-2"></div>
+  </div>
+</div>
+
+<%- include('includes/footer') %>
+    
