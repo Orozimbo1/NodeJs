@@ -79,6 +79,19 @@ class Contato {
         if(this.errors.length > 0) return
         this.contato = await ContatoModel.findByIdAndUpdate(id, this.body, { new: true })
     }
+
+    async buscarContatos() {
+        const contatos = await ContatoModel.find()
+        .sort({ criadoEm: -1 })
+        return contatos
+    }
+
+    async delete(id) {
+        if(typeof id !== 'string') return
+        const contato = await ContatoModel.findOneAndDelete({ _id: id })
+        return contato
+    }
 }
 
+console.log(Contato)
 module.exports = Contato
